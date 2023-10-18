@@ -73,7 +73,7 @@ export const InitialModal = () => {
 
   return (
     <Dialog open>
-      <DialogContent className="bg-sky-50 text-black p-0 overflow-hidden shadow-2xl shadow-blue-300 border-none">
+      <DialogContent className="p-0 overflow-hidden shadow-2xl shadow-blue-300 border-none">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
             Customize your world
@@ -126,9 +126,9 @@ export const InitialModal = () => {
                 )}
               />
             </div>
-            <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button variant="primary" disabled={isLoading}>
-                Create
+            <DialogFooter className="px-6 py-4">
+              <Button variant="ghost" disabled={isLoading}>
+                Create world
               </Button>
             </DialogFooter>
           </form>
