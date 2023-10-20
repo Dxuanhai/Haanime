@@ -24,7 +24,7 @@ const SetupPage = async () => {
   return (
     <main
       className=" w-full h-screen bg-center bg-cover bg-no-repeat"
-      style={{ backgroundImage: `url(/anime-background.jpg)` }}
+      style={{ backgroundImage: `url(/kanna.jpg)` }}
     >
       <InitialModal />
     </main>

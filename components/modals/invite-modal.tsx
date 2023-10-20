@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { Check, Copy, RefreshCw } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import {
@@ -19,7 +20,6 @@ import { useOrigin } from "@/hooks/use-origin";
 export const InviteModal = () => {
   const { onOpen, isOpen, onClose, type, data } = useModal();
   const origin = useOrigin();
-
   const isModalOpen = isOpen && type === "invite";
   const { server } = data;
 
@@ -51,9 +51,11 @@ export const InviteModal = () => {
       setIsLoading(false);
     }
   };
-
+  const handleClose = () => {
+    onClose();
+  };
   return (
-    <Dialog open={isModalOpen} onOpenChange={onClose}>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className=" p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl  text-center font-bold">

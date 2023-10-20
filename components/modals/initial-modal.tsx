@@ -73,7 +73,7 @@ export const InitialModal = () => {
 
   return (
     <Dialog open>
-      <DialogContent className="p-0 overflow-hidden shadow-2xl shadow-blue-300 border-none">
+      <DialogContent className=" bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-600 via-white to-slate-200 dark:from-indigo-900 dark:via-slate-600 dark:to-gray-950 p-0 overflow-hidden shadow-2xl shadow-blue-300 border-none  left-0 translate-x-0">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
             Customize your world
