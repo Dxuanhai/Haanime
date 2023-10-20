@@ -33,9 +33,8 @@ export default function RootLayout({
         >
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            storageKey="discord-themeaaa"
+            defaultTheme="light"
+            storageKey="hanime-theme"
           >
             {children}
             <ModalProvider />
