@@ -77,7 +77,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
           )}
           {isModerator && (
             <div
-              onClick={() => alert("moderator")}
+              onClick={() => onOpen("createChannel")}
               className="px-3 py-3 text-sm cursor-pointer flex items-center text-md hover:bg-slate-200 hover:dark:bg-slate-700 "
             >
               Create Channel
