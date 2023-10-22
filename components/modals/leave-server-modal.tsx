@@ -55,12 +55,12 @@ export const LeaveServerModal = () => {
             ?
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="bg-gray-100 px-6 py-4">
+        <DialogFooter className=" px-6 py-4">
           <div className="flex items-center justify-between w-full">
             <Button disabled={isLoading} onClick={onClose} variant="ghost">
               Cancel
             </Button>
-            <Button disabled={isLoading} variant="primary" onClick={onClick}>
+            <Button disabled={isLoading} variant="ghost" onClick={onClick}>
               Confirm
             </Button>
           </div>
