@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/providers/themes-provide";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { ModalProvider } from "@/components/providers/modal-provider";
+import { SocketProvider } from "@/components/providers/socket-provider";
 
 const font = Open_Sans({ subsets: ["latin"] });
 
@@ -36,8 +37,10 @@ export default function RootLayout({
             defaultTheme="light"
             storageKey="hanime-theme"
           >
-            {children}
-            <ModalProvider />
+            <SocketProvider>
+              <ModalProvider />
+              {children}
+            </SocketProvider>
             <Toaster />
           </ThemeProvider>
         </body>
