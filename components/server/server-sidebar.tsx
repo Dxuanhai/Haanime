@@ -1,12 +1,11 @@
 import { ChannelType, MemberRole } from "@prisma/client";
 import { redirect } from "next/navigation";
 import {
-  Hash,
+  MessageSquare,
   Mic,
   ShieldAlert,
   ShieldCheck,
   Video,
-  MessageSquare,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { currentProfile } from "@/lib/current-profile";
