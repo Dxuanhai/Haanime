@@ -41,13 +41,13 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         asChild
         onClick={() => handleDropdownMenu()}
       >
-        <button className="w-full text-md font-semibold px-3 flex items-center h-12 border-neutral-200 dark:border-neutral-800 border-b-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition dark:text-white text-slate-800">
+        <button className="w-full text-md font-semibold px-3 flex items-center h-12 border-neutral-200 dark:border-gray-700 border-b-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition dark:text-white text-slate-800">
           {server.name}
           <ChevronDown className="h-5 w-5 ml-auto" />
         </button>
       </DropdownMenuTrigger>
       {toogle && (
-        <nav className="dark:bg-slate-800  transition-all border-b-4 border-gray-300 ">
+        <nav className=" transition-all border-b-4 border-gray-300 ">
           {isModerator && (
             <div
               onClick={() => onOpen("invite", { server })}

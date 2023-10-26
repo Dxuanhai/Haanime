@@ -10,7 +10,7 @@ export const NavigationAction = () => {
 
   return (
     <div>
-      <ActionTooltip side="right" align="center" label="Add a new world">
+      <ActionTooltip side="right" align="center" label="Create new world">
         <button
           onClick={() => onOpen("createServer")}
           className="group flex items-center"
