@@ -9,7 +9,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["uploadthing.com", "utfs.io", "notion.so"],
+    domains: ["uploadthing.com", "utfs.io", "img.clerk.com"],
   },
 };
 
