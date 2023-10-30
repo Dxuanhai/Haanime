@@ -15,7 +15,8 @@ model Profile {
   userId String @unique
   name String
   imageUrl String @db.Text
-  bgUrl String @db.Text
+  bgUrl String? @db.Text
+  bio String? @db.Text
   email String @db.Text
 
   servers Server[]

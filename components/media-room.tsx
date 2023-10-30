@@ -1,5 +1,10 @@
 "use client";
-
+import {
+  AudioConference,
+  Chat,
+  TrackMutedIndicator,
+  TrackToggle,
+} from "@livekit/components-react";
 import { useEffect, useState } from "react";
 import {
   ControlBar,
@@ -10,6 +15,7 @@ import {
   VideoConference,
   useTracks,
 } from "@livekit/components-react";
+
 import "@livekit/components-styles";
 import { Channel, Profile } from "@prisma/client";
 import { useUser } from "@clerk/nextjs";
@@ -68,14 +74,18 @@ export const MediaRoom = ({
       audio={audio}
       className="bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-500 via-white to-slate-200 dark:from-indigo-900 dark:via-slate-600 dark:to-gray-950"
     >
-      <MyVideoConference profile_user={profile_user} />
-      <RoomAudioRenderer />
-      <ControlBar />
+      <MyVideoConference profile_user={profile_user} video={video} />
     </LiveKitRoom>
   );
 };
 
-function MyVideoConference({ profile_user }: { profile_user: Profile }) {
+function MyVideoConference({
+  profile_user,
+  video,
+}: {
+  profile_user: Profile;
+  video: boolean;
+}) {
   // `useTracks` returns all camera and screen share tracks. If a user
   // joins without a published camera track, a placeholder track is returned.
   const tracks = useTracks(
@@ -86,26 +96,46 @@ function MyVideoConference({ profile_user }: { profile_user: Profile }) {
     { onlySubscribed: false }
   );
   return (
-    <GridLayout
-      tracks={tracks}
-      style={{
-        height: "calc(90vh - var(--lk-control-bar-height))",
-      }}
-    >
-      {/* The GridLayout accepts zero or one child. The child is used
-      as a template to render all passed in tracks. */}
-      <div
-        className="w-full h-full flex justify-center items-center bg-center bg-no-repeat bg-cover"
-        style={profile_user && { backgroundImage: `url(/kanna.jpg)` }}
-      >
-        <Image
-          src={profile_user.imageUrl}
-          alt={profile_user.name}
-          className=" rounded-full bg-center bg-no-repeat bg-cover"
-          width={200}
-          height={200}
-        />
-      </div>
-    </GridLayout>
+    <>
+      {video ? (
+        <VideoConference />
+      ) : (
+        <>
+          <GridLayout
+            tracks={tracks}
+            style={{
+              height: "80vh ",
+            }}
+            className="m-auto"
+          >
+            <div
+              className="w-full h-full flex justify-center items-center bg-center bg-no-repeat bg-cover relative rounded-md"
+              style={
+                profile_user && {
+                  backgroundImage: `url(${profile_user.bgUrl})`,
+                }
+              }
+            >
+              <Image
+                src={profile_user.imageUrl}
+                alt={profile_user.name}
+                className=" rounded-full bg-center bg-no-repeat bg-cover absolute"
+                width={200}
+                height={200}
+              />
+              <div className="left-[5px] bottom-[5px] z-10 absolute flex justify-center items-center gap-2 py-1 px-2 rounded-md dark:bg-zinc-600 dark:text-slate-50 bg-zinc-300 text-slate-800">
+                <h3 className="">{profile_user.name}</h3>
+                <TrackToggle
+                  source={Track.Source.Microphone}
+                  className="bg-slate-300"
+                />
+              </div>
+            </div>
+          </GridLayout>
+
+          <RoomAudioRenderer />
+        </>
+      )}
+    </>
   );
 }
