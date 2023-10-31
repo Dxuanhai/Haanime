@@ -1,10 +1,6 @@
 "use client";
-import {
-  AudioConference,
-  Chat,
-  TrackMutedIndicator,
-  TrackToggle,
-} from "@livekit/components-react";
+import { TrackToggle } from "@livekit/components-react";
+import qs from "query-string";
 import { useEffect, useState } from "react";
 import {
   ControlBar,
@@ -22,12 +18,15 @@ import { useUser } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
 import { Track } from "livekit-client";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import axios from "axios";
 
 interface MediaRoomProps {
   chatId: string;
   video: boolean;
   audio: boolean;
   profile_user: Profile;
+  params?: { serverId: string; channelId: string };
 }
 
 export const MediaRoom = ({
@@ -35,9 +34,44 @@ export const MediaRoom = ({
   video,
   audio,
   profile_user,
+  params,
 }: MediaRoomProps) => {
   const { user } = useUser();
   const [token, setToken] = useState("");
+  const [userInRoom, setUserInRoom] = useState<Profile[]>();
+  const [newUserInRoom, setNewUserInRoom] = useState<Profile>();
+
+  useEffect(() => {
+    const createUserInRoom = async () => {
+      const res: Profile = await axios.post(
+        `/api/channels/${params?.channelId}`,
+        {
+          profileId: profile_user.id,
+        }
+      );
+      console.log(res);
+      setNewUserInRoom(res);
+    };
+    createUserInRoom();
+  }, [params?.serverId, params?.channelId]);
+
+  useEffect(() => {
+    const fetchUsersInRoom = async () => {
+      try {
+        const url = `/api/channels/${params?.channelId}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data !== userInRoom) {
+          setUserInRoom(data);
+          console.log("data ", data);
+        }
+      } catch (error) {
+        console.log(error);
+        // handle error here
+      }
+    };
+    fetchUsersInRoom();
+  }, [newUserInRoom]);
 
   useEffect(() => {
     if (!user?.firstName || !user?.lastName) return;
@@ -56,6 +90,7 @@ export const MediaRoom = ({
       }
     })();
   }, [user?.firstName, user?.lastName, chatId]);
+
   if (token === "") {
     return (
       <div className="flex flex-col flex-1 justify-center items-center">
@@ -64,6 +99,7 @@ export const MediaRoom = ({
       </div>
     );
   }
+
   return (
     <LiveKitRoom
       data-lk-theme="default"
@@ -74,7 +110,7 @@ export const MediaRoom = ({
       audio={audio}
       className="bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-500 via-white to-slate-200 dark:from-indigo-900 dark:via-slate-600 dark:to-gray-950"
     >
-      <MyVideoConference profile_user={profile_user} video={video} />
+      <VideoConference />
     </LiveKitRoom>
   );
 };

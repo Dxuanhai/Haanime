@@ -18,7 +18,7 @@ model Profile {
   bgUrl String? @db.Text
   bio String? @db.Text
   email String @db.Text
-
+  userInRoom UserInRoom?
   servers Server[]
   members Member[]
   channels Channel[]
@@ -92,6 +92,7 @@ model Channel {
   server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
   messages Message[]
+  userInRoom UserInRoom[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -100,6 +101,17 @@ model Channel {
   @@index([serverId])
 }
 
+model UserInRoom {
+  id String @id @default(uuid())
+  channelId String 
+  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+   profileId String @unique
+   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+   @@index([channelId])
+   @@index([profileId])
+}
 model Message {
   id String @id @default(uuid())
   content String @db.Text

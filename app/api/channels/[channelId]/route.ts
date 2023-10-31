@@ -1,8 +1,65 @@
 import { NextResponse } from "next/server";
-import { MemberRole } from "@prisma/client";
+import { MemberRole, Profile } from "@prisma/client";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+
+export async function GET(
+  req: Request,
+  { params }: { params: { channelId: string } }
+) {
+  try {
+    const profile = await currentProfile();
+
+    if (!profile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    if (!params.channelId) {
+      return new NextResponse("Channel ID missing", { status: 400 });
+    }
+
+    const data = await db.userInRoom.findMany({
+      where: {
+        channelId: params.channelId,
+      },
+      include: {
+        profile: true,
+      },
+    });
+
+    return NextResponse.json(data);
+    //const otherPofiles = (await data).filter((p) => p.id === profile.id);
+  } catch (error) {
+    console.log("[CHANNEL_ID_DELETE]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+export async function POST(
+  req: Request,
+  { params }: { params: { channelId: string } }
+) {
+  try {
+    const body: any = await req.json();
+
+    if (!params.channelId) {
+      return new NextResponse("Channel ID missing", { status: 400 });
+    }
+
+    const data = await db.userInRoom.create({
+      data: {
+        channelId: params.channelId,
+        profileId: body.profileId,
+      },
+    });
+
+    //const otherPofiles = (await data).filter((p) => p.id === profile.id);
+    return NextResponse.json(data);
+  } catch (error) {
+    console.log("[CHANNEL_ID_DELETE]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
 
 export async function DELETE(
   req: Request,

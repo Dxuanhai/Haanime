@@ -77,6 +77,7 @@ const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
           video={false}
           audio={true}
           profile_user={profile}
+          params={params}
         />
       )}
       {channel.type === ChannelType.VIDEO && (
