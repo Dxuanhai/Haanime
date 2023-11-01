@@ -47,7 +47,12 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
       },
     },
   });
-
+  const usersInRoom = await db.userInRoom.findMany({
+    include: {
+      profile: true,
+    },
+  });
+  console.log("check users in room : ", usersInRoom);
   const textChannels = server?.channels.filter(
     (channel) => channel.type === ChannelType.TEXT
   );
@@ -159,14 +164,20 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               label="Voice Channels"
             />
             <div className="space-y-[2px]">
-              {audioChannels.map((channel) => (
-                <ServerChannel
-                  key={channel.id}
-                  channel={channel}
-                  role={role}
-                  server={server}
-                />
-              ))}
+              {audioChannels.map((channel) => {
+                const specificUsers = usersInRoom.filter(
+                  (users) => users.channelId === channel.id
+                );
+                return (
+                  <ServerChannel
+                    key={channel.id}
+                    channel={channel}
+                    role={role}
+                    server={server}
+                    userInRoom={specificUsers}
+                  />
+                );
+              })}
             </div>
           </div>
         )}

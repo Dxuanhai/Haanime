@@ -38,40 +38,23 @@ export const MediaRoom = ({
 }: MediaRoomProps) => {
   const { user } = useUser();
   const [token, setToken] = useState("");
-  const [userInRoom, setUserInRoom] = useState<Profile[]>();
-  const [newUserInRoom, setNewUserInRoom] = useState<Profile>();
 
   useEffect(() => {
     const createUserInRoom = async () => {
-      const res: Profile = await axios.post(
-        `/api/channels/${params?.channelId}`,
-        {
-          profileId: profile_user.id,
-        }
-      );
-      console.log(res);
-      setNewUserInRoom(res);
+      try {
+        const res: Profile = await axios.post(
+          `/api/channels/${params?.channelId}`,
+          {
+            profileId: profile_user.id,
+          }
+        );
+        console.log("check ress : ", res);
+      } catch (error) {
+        console.log(error);
+      }
     };
     createUserInRoom();
   }, [params?.serverId, params?.channelId]);
-
-  useEffect(() => {
-    const fetchUsersInRoom = async () => {
-      try {
-        const url = `/api/channels/${params?.channelId}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        if (data !== userInRoom) {
-          setUserInRoom(data);
-          console.log("data ", data);
-        }
-      } catch (error) {
-        console.log(error);
-        // handle error here
-      }
-    };
-    fetchUsersInRoom();
-  }, [newUserInRoom]);
 
   useEffect(() => {
     if (!user?.firstName || !user?.lastName) return;

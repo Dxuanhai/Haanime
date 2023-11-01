@@ -46,6 +46,29 @@ export async function POST(
       return new NextResponse("Channel ID missing", { status: 400 });
     }
 
+    const checkUserInAnotherRoom = await db.userInRoom.findUnique({
+      where: {
+        profileId: body.profileId,
+      },
+    });
+
+    if (!checkUserInAnotherRoom) {
+      const data = await db.userInRoom.create({
+        data: {
+          channelId: params.channelId,
+          profileId: body.profileId,
+        },
+      });
+
+      return NextResponse.json(data);
+    }
+
+    await db.userInRoom.delete({
+      where: {
+        profileId: body.profileId,
+      },
+    });
+
     const data = await db.userInRoom.create({
       data: {
         channelId: params.channelId,
@@ -53,7 +76,6 @@ export async function POST(
       },
     });
 
-    //const otherPofiles = (await data).filter((p) => p.id === profile.id);
     return NextResponse.json(data);
   } catch (error) {
     console.log("[CHANNEL_ID_DELETE]", error);
