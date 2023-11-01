@@ -52,7 +52,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
       profile: true,
     },
   });
-  console.log("check users in room : ", usersInRoom);
+
   const textChannels = server?.channels.filter(
     (channel) => channel.type === ChannelType.TEXT
   );
@@ -142,6 +142,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               channelType={ChannelType.TEXT}
               role={role}
               label="Text Channels"
+              serverData={server}
             />
             <div className="space-y-[2px]">
               {textChannels.map((channel) => (
@@ -162,26 +163,13 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               channelType={ChannelType.AUDIO}
               role={role}
               label="Voice Channels"
+              dataChannels={audioChannels}
+              serverData={server}
+              userInRoomStatic={usersInRoom}
             />
-            <div className="space-y-[2px]">
-              {audioChannels.map((channel) => {
-                const specificUsers = usersInRoom.filter(
-                  (users) => users.channelId === channel.id
-                );
-                return (
-                  <ServerChannel
-                    key={channel.id}
-                    channel={channel}
-                    role={role}
-                    server={server}
-                    userInRoom={specificUsers}
-                  />
-                );
-              })}
-            </div>
           </div>
         )}
-        {!!videoChannels?.length && (
+        {/* {!!videoChannels?.length && (
           <div className="mb-2">
             <ServerSection
               sectionType="channels"
@@ -200,7 +188,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               ))}
             </div>
           </div>
-        )}
+        )} */}
         {!!members?.length && (
           <div className="mb-2">
             <ServerSection
@@ -208,6 +196,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               role={role}
               label="Members"
               server={server}
+              serverData={server}
             />
             <div className="space-y-[2px]">
               {members.map((member) => (

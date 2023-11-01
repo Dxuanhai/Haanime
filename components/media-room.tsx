@@ -42,13 +42,9 @@ export const MediaRoom = ({
   useEffect(() => {
     const createUserInRoom = async () => {
       try {
-        const res: Profile = await axios.post(
-          `/api/channels/${params?.channelId}`,
-          {
-            profileId: profile_user.id,
-          }
-        );
-        console.log("check ress : ", res);
+        await axios.post(`/api/socket/channels/${params?.channelId}`, {
+          profileId: profile_user.id,
+        });
       } catch (error) {
         console.log(error);
       }

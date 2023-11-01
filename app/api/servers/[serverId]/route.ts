@@ -3,6 +3,40 @@ import { NextResponse } from "next/server";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 
+export async function GET(
+  req: Request,
+  { params }: { params: { serverId: string } }
+) {
+  try {
+    if (params.serverId)
+      return new NextResponse("serverId ID misssing", { status: 400 });
+    const server = await db.server.findUnique({
+      where: {
+        id: params.serverId,
+      },
+      include: {
+        channels: {
+          orderBy: {
+            createdAt: "asc",
+          },
+        },
+        members: {
+          include: {
+            profile: true,
+          },
+          orderBy: {
+            role: "asc",
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(server);
+  } catch (error) {
+    console.log("[SERVER_ID_PATCH]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
 export async function PATCH(
   req: Request,
   { params }: { params: { serverId: string } }

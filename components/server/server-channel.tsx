@@ -20,23 +20,16 @@ interface ServerChannelProps {
   channel: Channel;
   server: Server;
   role?: MemberRole;
-  userInRoom?: ({
-    profile: {
-      id: string;
-      userId: string;
-      name: string;
-      imageUrl: string;
-      bgUrl: string | null;
-      bio: string | null;
-      email: string;
-      createdAt: Date;
-      updatedAt: Date;
-    };
-  } & {
-    id: string;
-    channelId: string;
-    profileId: string;
-  })[];
+  userInRoom?:
+    | ({
+        profile: Profile;
+      } & {
+        id: string;
+        channelId: string;
+        profileId: string;
+      })[]
+    | undefined
+    | null;
 }
 
 const iconMap = {
