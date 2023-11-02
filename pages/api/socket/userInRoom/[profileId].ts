@@ -42,7 +42,7 @@ export default async function handler(
       where: {
         channel: {
           server: {
-            id: serverId,
+            id: serverId as string,
           },
         },
       },
