@@ -7,53 +7,34 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponseServerIo
 ) {
-  if (req.method !== "POST") {
+  if (req.method !== "DELETE") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const { channelId } = req.query;
-    const { profileId, serverId }: { profileId: string; serverId: string } =
-      req.body;
+    const { profileId, serverId } = req.query;
 
-    if (!profileId) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
     if (!serverId) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    if (!channelId) {
-      return res.status(400).json({ error: "channel ID missing" });
+    if (!profileId) {
+      return res.status(401).json({ error: "profile ID missing" });
     }
 
     const checkUserInAnotherRoom = await db.userInRoom.findUnique({
       where: {
-        profileId,
+        profileId: profileId as string,
       },
     });
 
     if (!checkUserInAnotherRoom) {
-      const data = await db.userInRoom.create({
-        data: {
-          channelId: channelId as string,
-          profileId: profileId,
-        },
-      });
-
-      return res.json(data);
+      return res.status(200).json("user not found");
     }
 
     await db.userInRoom.delete({
       where: {
-        profileId: profileId,
-      },
-    });
-
-    const data = await db.userInRoom.create({
-      data: {
-        channelId: channelId as string,
-        profileId: profileId,
+        profileId: profileId as string,
       },
     });
 
@@ -76,7 +57,7 @@ export default async function handler(
       res?.socket?.server?.io?.emit(channelKey, dataSocket);
     }
 
-    return res.status(200).json(data);
+    return res.status(200).json(dataSocket);
   } catch (error) {
     console.log("[MESSAGES_POST]", error);
     return res.status(500).json({ message: "Internal Error" });

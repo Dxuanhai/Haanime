@@ -6,7 +6,6 @@ import {
   MemberRole,
   Profile,
   Server,
-  UserInRoom,
 } from "@prisma/client";
 import { Plus, Settings } from "lucide-react";
 
@@ -15,7 +14,6 @@ import { ActionTooltip } from "@/components/action-tooltip";
 import { useModal } from "@/hooks/use-modal-store";
 import { ServerChannel } from "./server-channel";
 import { useSocket } from "../providers/socket-provider";
-
 import { useEffect, useState } from "react";
 
 type usersInRoomType =
@@ -36,6 +34,7 @@ interface ServerSectionProps {
   dataChannels?: Channel[];
   serverData: Server;
   userInRoomStatic?: usersInRoomType;
+  currentProflie: Profile;
 }
 
 export const ServerSection = ({
@@ -47,6 +46,7 @@ export const ServerSection = ({
   dataChannels,
   serverData,
   userInRoomStatic,
+  currentProflie,
 }: ServerSectionProps) => {
   const { onOpen } = useModal();
   const { socket } = useSocket();
@@ -60,8 +60,6 @@ export const ServerSection = ({
     try {
       socket.on("channel", (items: usersInRoomType) => {
         setUsersInRoom(items);
-
-        //});
       });
     } catch (error) {
       console.log(error);
