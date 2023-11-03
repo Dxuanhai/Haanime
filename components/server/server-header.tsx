@@ -47,7 +47,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         </button>
       </DropdownMenuTrigger>
       {toogle && (
-        <nav className=" transition-all border-b-4 border-gray-300 ">
+        <nav className=" transition-all border-b-4 bg-gradient-to-b from-slate-300 via-white to-slate-300 dark:from-indigo-950 dark:via-slate-600 dark:to-gray-750 ">
           {isModerator && (
             <div
               onClick={() => onOpen("invite", { server })}
