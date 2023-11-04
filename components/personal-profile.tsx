@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Settings, LogOut } from "lucide-react";
+import { User, Settings, LogOut, ArrowBigRight } from "lucide-react";
 import { useClerk } from "@clerk/clerk-react";
 import { ActionTooltip } from "@/components/action-tooltip";
 import { useModal } from "@/hooks/use-modal-store";
@@ -26,6 +26,12 @@ export const PersonalProfile = ({ profile }: { profile: Profile }) => {
     },
     {
       id: 3,
+      label: "Isekai",
+      icon: <ArrowBigRight className="w-4 h-4" />,
+      fn: () => onOpen("explore-servers"),
+    },
+    {
+      id: 4,
       label: "Logout",
       icon: <LogOut className="w-4 h-4" />,
       fn: () => signOut(() => router.push("/")),
@@ -57,7 +63,7 @@ export const PersonalProfile = ({ profile }: { profile: Profile }) => {
             <li
               onClick={item.fn}
               key={item.id}
-              className="py-3 px-6 flex justify-between items-center gap-x-2 cursor-pointer hover:opacity-50"
+              className="py-3 px-6 flex justify-between items-center gap-x-4 cursor-pointer hover:opacity-50"
             >
               {item.label} {item.icon}
             </li>

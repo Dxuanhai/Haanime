@@ -13,7 +13,8 @@ export type ModalType =
   | "editChannel"
   | "messageFile"
   | "deleteMessage"
-  | "edit-profile";
+  | "edit-profile"
+  | "explore-servers";
 
 interface ModalData {
   profile?: Profile;

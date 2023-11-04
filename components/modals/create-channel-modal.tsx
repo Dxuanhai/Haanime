@@ -112,7 +112,7 @@ export const CreateChannelModal = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="uppercase text-xs font-boldx">
+                    <FormLabel className="uppercase text-xs font-bold">
                       Channel name
                     </FormLabel>
                     <FormControl>
