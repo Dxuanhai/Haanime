@@ -20,11 +20,6 @@ const ServerIdPage = async ({ params }: ServerIdPageProps) => {
   const server = await db.server.findUnique({
     where: {
       id: params.serverId,
-      members: {
-        some: {
-          profileId: profile.id,
-        },
-      },
     },
     include: {
       channels: {
@@ -38,7 +33,7 @@ const ServerIdPage = async ({ params }: ServerIdPageProps) => {
     },
   });
 
-  const initialChannel = server?.channels[0];
+  let initialChannel = server?.channels[0];
 
   if (initialChannel?.name !== "general") {
     return null;
