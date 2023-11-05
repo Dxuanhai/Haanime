@@ -57,7 +57,7 @@ export const PersonalProfile = ({ profile }: { profile: Profile }) => {
           </div>
         </div>
       </ActionTooltip>
-      <ul className="modal_user rounded-md  flex flex-col bg-gradient-to-bl from-slate-500 via-white to-slate-400 dark:from-indigo-900 dark:via-slate-600 dark:to-gray-950 fixed bottom-3 left-[72px]">
+      <ul className="modal_user rounded-md  hidden flex-col bg-gradient-to-bl from-slate-500 via-white to-slate-400 dark:from-indigo-900 dark:via-slate-600 dark:to-gray-950 fixed bottom-3 left-[72px]">
         {options.map((item) => {
           return (
             <li

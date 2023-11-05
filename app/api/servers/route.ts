@@ -35,3 +35,18 @@ export async function POST(req: Request) {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const server = await db.server.findMany({
+      include: {
+        members: true,
+      },
+    });
+
+    return NextResponse.json(server);
+  } catch (error) {
+    console.log("[SERVERS_POST]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
