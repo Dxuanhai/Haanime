@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { useModal } from "@/hooks/use-modal-store";
 import { UserAvatar } from "@/components/user-avatar";
-import { DoorOpen, Users2Icon } from "lucide-react";
+import { DoorOpen, Users2Icon, DoorClosed } from "lucide-react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 
@@ -21,7 +21,9 @@ import axios from "axios";
 
 export const ExploreServers = () => {
   const router = useRouter();
-  const { onOpen, isOpen, onClose, type } = useModal();
+  const { onOpen, isOpen, onClose, type, data } = useModal();
+
+  const { profile } = data;
   const [servers, setServers] = useState<
     {
       id: string;
@@ -88,13 +90,28 @@ export const ExploreServers = () => {
                       </div>
                     </div>
                   </div>
-                  <Button
-                    onClick={() => johnServer(item.id)}
-                    variant="ghost"
-                    className="hidden group-hover:flex  gap-x-3"
-                  >
-                    Accept isekai <DoorOpen className="w-4 h-4" />
-                  </Button>
+                  {item.members.some(
+                    (member) => member.profileId === profile?.id
+                  ) ? (
+                    <Button
+                      onClick={() => johnServer(item.id)}
+                      variant="ghost"
+                      disabled={true}
+                      className="hidden group-hover:flex  gap-x-3"
+                    >
+                      johned
+                      <DoorClosed className="w-4 h-4" />
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => johnServer(item.id)}
+                      variant="ghost"
+                      className="hidden group-hover:flex  gap-x-3"
+                    >
+                      Accept Isekai
+                      <DoorOpen className="w-4 h-4" />
+                    </Button>
+                  )}
                 </CommandItem>
                 <Separator />
               </>
