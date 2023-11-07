@@ -28,7 +28,7 @@ export const PersonalProfile = ({ profile }: { profile: Profile }) => {
       id: 3,
       label: "Isekai",
       icon: <ArrowBigRight className="w-4 h-4" />,
-      fn: () => onOpen("explore-servers"),
+      fn: () => onOpen("explore-servers", { profile }),
     },
     {
       id: 4,
