@@ -7,7 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/user-avatar";
 import { useModal } from "@/hooks/use-modal-store";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ServerMemberProps {
   member: Member & { profile: Profile };
@@ -30,6 +30,27 @@ export const ServerMember = ({
 }: ServerMemberProps) => {
   const { onOpen } = useModal();
   const [toggle, setToggle] = useState(false);
+
+  const wrapperRef = useRef<HTMLUListElement>(null); // Ref for the button wrapper
+
+  const handleClickOutside = (event: any) => {
+    // Close toggle if the clicked element is outside the component
+
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      console.log("oek");
+      setToggle(false);
+    }
+  };
+
+  useEffect(() => {
+    // Attach event listener when component mounts
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Detach event listener when component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const options = [
     {
@@ -82,7 +103,10 @@ export const ServerMember = ({
         </p>
         {icon}
         {toggle && (
-          <ul className="rounded-md  flex flex-col dark:bg-gradient-to-tl dark:from-gray-900 dark:to-gray-700 bg-gradient-to-bl from-gray-100 to-gray-300 absolute -top-2 right-0 z-20">
+          <ul
+            ref={wrapperRef}
+            className="rounded-md  flex flex-col dark:bg-gradient-to-tl dark:from-gray-900 dark:to-gray-700 bg-gradient-to-bl from-gray-100 to-gray-300 absolute -top-2 right-0 z-20"
+          >
             {options.map((item) => {
               return (
                 <li
