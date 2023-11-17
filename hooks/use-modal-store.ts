@@ -15,7 +15,7 @@ export type ModalType =
   | "deleteMessage"
   | "edit-profile"
   | "explore-servers"
-  | "member-options";
+  | "read-profile";
 
 interface ModalData {
   profile?: Profile;

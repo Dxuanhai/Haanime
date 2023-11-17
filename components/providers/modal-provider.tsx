@@ -14,6 +14,7 @@ import { MessageFileModal } from "@/components/modals/message-file-modal";
 import { DeleteMessageModal } from "@/components/modals/delete-message-modal";
 import { EditProfileModal } from "@/components/modals/edit-profile-modal";
 import { ExploreServers } from "../modals/explore-server-modal";
+import { ReadProfileModal } from "../modals/read-profile-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -41,6 +42,7 @@ export const ModalProvider = () => {
       <DeleteMessageModal />
       <EditProfileModal />
       <ExploreServers />
+      <ReadProfileModal />
     </>
   );
 };
