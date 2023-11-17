@@ -37,7 +37,6 @@ export const ServerMember = ({
     // Close toggle if the clicked element is outside the component
 
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-      console.log("oek");
       setToggle(false);
     }
   };
@@ -57,7 +56,7 @@ export const ServerMember = ({
       id: 1,
       label: "Profile",
       icon: <User className="w-4 h-4" />,
-      fn: () => onOpen("edit-profile", { profile }),
+      fn: () => onOpen("read-profile", { profile }),
     },
     {
       id: 2,
